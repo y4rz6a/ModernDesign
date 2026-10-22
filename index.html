@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Y4rz6a - Premium Web Design</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-color: #030005;
+            color: white;
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        .stars-bg {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1;
+            background-image:
+                radial-gradient(1px 1px at 10% 20%, rgba(255,255,255,0.8), transparent),
+                radial-gradient(1px 1px at 40% 70%, rgba(255,255,255,0.6), transparent),
+                radial-gradient(1.5px 1.5px at 70% 30%, rgba(168,85,247,0.6), transparent),
+                radial-gradient(1px 1px at 90% 80%, rgba(255,255,255,0.7), transparent),
+                radial-gradient(1px 1px at 30% 50%, rgba(96,165,250,0.6), transparent);
+            background-size: 300px 300px;
+            animation: twinkle 5s infinite alternate;
+            will-change: opacity;
+        }
+
+        @keyframes twinkle {
+            0% { opacity: 0.4; }
+            100% { opacity: 1; }
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s cubic-bezier(0.5, 0, 0, 1), transform 0.8s cubic-bezier(0.5, 0, 0, 1);
+            will-change: opacity, transform;
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .nav-link {
+            position: relative;
+            padding-bottom: 4px;
+            transition: color 0.3s ease;
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background-color: #a855f7;
+            box-shadow: 0 0 10px #a855f7, 0 0 5px #a855f7;
+            transition: width 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+        .nav-link:hover {
+            color: #ffffff;
+        }
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .scene {
+            perspective: 1200px;
+            width: 100%;
+            height: 620px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        .core-container {
+            position: relative;
+            width: 380px;
+            height: 380px;
+            transform-style: preserve-3d;
+        }
+
+        .core-glow {
+            position: absolute;
+            inset: 15%;
+            border-radius: 50%;
+            background: radial-gradient(circle at 50% 50%,
+                rgba(168,85,247,0.55) 0%,
+                rgba(120,40,200,0.2) 35%,
+                transparent 70%);
+            filter: blur(35px);
+            animation: core-pulse 4s ease-in-out infinite;
+            z-index: 0;
+            will-change: transform, opacity;
+        }
+
+        @keyframes core-pulse {
+            0%, 100% { opacity: 0.65; transform: scale(1); }
+            50%      { opacity: 1;    transform: scale(1.12); }
+        }
+
+        .core-spin {
+            position: absolute;
+            inset: 0;
+            transform-style: preserve-3d;
+            animation: core-rotate 28s linear infinite;
+            will-change: transform;
+        }
+
+        @keyframes core-rotate {
+            from { transform: rotateY(0deg) rotateX(-10deg); }
+            to   { transform: rotateY(360deg) rotateX(-10deg); }
+        }
+
+        .meridian {
+            position: absolute;
+            inset: 0;
+            border-radius: 50%;
+            border: 1px solid rgba(168,85,247,0.28);
+            box-shadow: 0 0 10px rgba(168,85,247,0.12);
+        }
+        .meridian:nth-child(1) { transform: rotateY(0deg);   }
+        .meridian:nth-child(2) { transform: rotateY(22.5deg);}
+        .meridian:nth-child(3) { transform: rotateY(45deg);  }
+        .meridian:nth-child(4) { transform: rotateY(67.5deg);}
+        .meridian:nth-child(5) { transform: rotateY(90deg);  }
+        .meridian:nth-child(6) { transform: rotateY(112.5deg);}
+        .meridian:nth-child(7) { transform: rotateY(135deg); }
+        .meridian:nth-child(8) { transform: rotateY(157.5deg);}
+
+        .equator {
+            position: absolute;
+            inset: 0;
+            border-radius: 50%;
+            border: 1px solid rgba(216,180,254,0.7);
+            transform: rotateX(90deg);
+            box-shadow: 0 0 18px rgba(168,85,247,0.35);
+        }
+
+        .chip {
+            position: absolute;
+            padding: 10px 14px;
+            background: rgba(10,10,18,0.7);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border: 1px solid rgba(168,85,247,0.35);
+            border-radius: 12px;
+            font-size: 12px;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow:
+                0 8px 30px rgba(0,0,0,0.6),
+                0 0 20px rgba(168,85,247,0.15);
+            white-space: nowrap;
+            z-index: 4;
+            transition: all 0.3s ease;
+        }
+        
+        .chip:hover {
+            border-color: rgba(168,85,247,0.8);
+            box-shadow: 0 0 30px rgba(168,85,247,0.4);
+            transform: translateY(-2px);
+        }
+
+        .chip.c1 {
+            top: 70px;
+            right: -50px;
+            animation: chip-float 5s ease-in-out infinite;
+            will-change: transform;
+        }
+        .chip.c2 {
+            bottom: 90px;
+            left: -70px;
+            animation: chip-float 5s ease-in-out infinite reverse;
+            will-change: transform;
+        }
+
+        @keyframes chip-float {
+            0%, 100% { transform: translateY(0); }
+            50%      { transform: translateY(-10px); }
+        }
+
+        .chip .live-dot {
+            width: 6px; height: 6px;
+            border-radius: 50%;
+            background: #22c55e;
+            box-shadow: 0 0 8px #22c55e;
+            animation: blink 1.4s ease-in-out infinite;
+        }
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50%      { opacity: 0.35; }
+        }
+
+        .chip svg { color: #a855f7; }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50%      { transform: translateY(-15px); }
+        }
+        .animate-float {
+            animation: float 6s ease-in-out infinite;
+            will-change: transform;
+        }
+
+        .project-card {
+            background: #0a0a0a;
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 1rem;
+            overflow: hidden;
+            transition: all 0.4s ease;
+            position: relative;
+        }
+        .project-card:hover {
+            border-color: rgba(168, 85, 247, 0.4);
+            box-shadow: 0 10px 40px -10px rgba(168, 85, 247, 0.3);
+            transform: translateY(-5px);
+        }
+        .proj-img-1 { background: radial-gradient(circle at 50% 50%, #1e1b4b, #030005); }
+        .proj-img-2 { background: radial-gradient(circle at 50% 50%, #2e1065, #030005); }
+        .proj-img-3 { background: radial-gradient(circle at 50% 50%, #0c4a6e, #030005); }
+
+        .cube-container {
+            width: 200px;
+            height: 200px;
+            perspective: 1000px;
+            position: relative;
+        }
+
+        .cube {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+            animation: rotateCube 12s infinite linear;
+            will-change: transform;
+        }
+
+        .face {
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            border: 1px solid rgba(168, 85, 247, 0.4);
+            background: rgba(168, 85, 247, 0.05);
+            box-shadow: inset 0 0 30px rgba(168, 85, 247, 0.1);
+            backdrop-filter: blur(4px);
+        }
+
+        .front  { transform: translateZ(100px); }
+        .back   { transform: rotateY(180deg) translateZ(100px); }
+        .right  { transform: rotateY(90deg) translateZ(100px); }
+        .left   { transform: rotateY(-90deg) translateZ(100px); }
+        .top    { transform: rotateX(90deg) translateZ(100px); }
+        .bottom { transform: rotateX(-90deg) translateZ(100px); }
+
+        @keyframes rotateCube {
+            0% { transform: rotateX(0deg) rotateY(0deg); }
+            100% { transform: rotateX(360deg) rotateY(360deg); }
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-purple-500 selection:text-white">
+
+    <div class="stars-bg"></div>
+
+    <nav class="fixed w-full top-0 z-50 bg-[#030005]/60 backdrop-blur-lg border-b border-white/5">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="#hero" class="text-xl font-bold tracking-widest flex items-center gap-2 cursor-pointer">
+                <svg class="w-6 h-6 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                y4rz6a
+            </a>
+            <div class="hidden md:flex gap-8 text-sm text-gray-400 font-medium">
+                <a href="#hero" class="nav-link text-white">Home</a>
+                <a href="#about" class="nav-link">About</a>
+                <a href="#services" class="nav-link">Services</a>
+                <a href="#projects" class="nav-link">Projects</a>
+                <a href="#contact" class="nav-link">Contact</a>
+            </div>
+            <a href="#contact" class="border border-purple-500/50 hover:border-purple-500 hover:bg-purple-500/10 hover:shadow-[0_0_15px_rgba(168,85,247,0.4)] text-sm px-6 py-2 rounded-full transition cursor-pointer text-white">
+                Hire Me
+            </a>
+        </div>
+    </nav>
+
+    <section class="min-h-screen flex items-center relative pt-20 overflow-hidden" id="hero">
+        <div class="max-w-7xl mx-auto px-6 w-full flex flex-col lg:flex-row items-center justify-between gap-12 relative z-10">
+
+            <div class="w-full lg:w-1/2 flex flex-col items-start reveal mt-10 lg:mt-0" id="hero-text">
+                <p class="text-purple-400 text-lg mb-2 font-medium tracking-widest uppercase">Elevate Your Brand</p>
+                <h1 class="text-6xl lg:text-8xl font-bold leading-tight mb-6 tracking-tight">
+                    <span>Digital Excellence</span>
+                </h1>
+                <p class="text-gray-400 text-lg mb-8 max-w-md font-light leading-relaxed">
+                    I craft modern, lightning-fast, and visually stunning websites. Turn your vision into a premium digital reality. Let's connect and build something amazing.
+                </p>
+                <a href="https://t.me/Y4rz6a" target="_blank" class="bg-transparent border border-purple-500/50 hover:bg-purple-500/20 hover:shadow-[0_0_20px_rgba(168,85,247,0.4)] text-white px-8 py-3.5 rounded-full flex items-center gap-3 transition group cursor-pointer text-sm font-medium">
+                    Start Your Project
+                    <svg class="w-4 h-4 group-hover:translate-x-1 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
+                </a>
+            </div>
+
+            <div class="w-full lg:w-1/2 flex justify-center relative reveal" id="core-scene">
+                <div class="scene animate-float">
+                    <div class="core-container">
+                        <div class="core-glow"></div>
+                        <div class="core-spin">
+                            <div class="meridian"></div>
+                            <div class="meridian"></div>
+                            <div class="meridian"></div>
+                            <div class="meridian"></div>
+                            <div class="meridian"></div>
+                            <div class="meridian"></div>
+                            <div class="meridian"></div>
+                            <div class="meridian"></div>
+                            <div class="equator"></div>
+                        </div>
+                        <div class="chip c1">
+                            <span class="live-dot"></span>
+                            <span>Available for Work</span>
+                        </div>
+                        <a href="https://instagram.com/farz3adMini" target="_blank" class="chip c2">
+                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                            <span>@farz3adMini</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="absolute bottom-10 left-6 md:left-12 flex items-center gap-4 opacity-50 z-20">
+            <span class="text-xs tracking-widest uppercase text-gray-500">01 / 04</span>
+            <div class="w-12 h-[1px] bg-gray-700"></div>
+        </div>
+        <div class="absolute bottom-10 right-6 md:right-12 flex flex-col items-center gap-3 opacity-60 z-20">
+            <span class="text-[10px] tracking-widest uppercase text-gray-400 writing-vertical-rl">Scroll to explore</span>
+            <div class="w-[1px] h-12 bg-gradient-to-b from-white to-transparent"></div>
+        </div>
+    </section>
+
+    <section class="py-24 relative border-t border-white/5" id="about">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="flex flex-col lg:flex-row justify-between items-start gap-12">
+                <div class="w-full lg:w-1/3 reveal">
+                    <span class="text-purple-500 text-xs font-semibold tracking-widest uppercase mb-4 flex items-center gap-2">
+                        <span class="w-1.5 h-1.5 rounded-full bg-purple-500"></span> ABOUT ME
+                    </span>
+                    <h2 class="text-3xl lg:text-4xl font-semibold leading-snug mb-6">
+                        Crafting digital <br>
+                        <span class="text-gray-500">experiences that convert.</span>
+                    </h2>
+                    <p class="text-sm text-gray-500 mb-8 leading-relaxed max-w-sm">
+                        I specialize in building beautiful, functional, and high-performance web applications. My focus is on delivering pixel-perfect designs with clean, scalable code.
+                    </p>
+                    <a href="https://instagram.com/farz3adMini" target="_blank" class="text-sm font-medium text-white flex items-center gap-2 hover:text-purple-400 transition">
+                        Let's Talk
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
+                    </a>
+                </div>
+
+                <div class="w-full lg:w-2/3 flex flex-col md:flex-row items-start md:items-center justify-between gap-8 relative reveal">
+                    <svg class="absolute top-0 left-0 w-full h-full hidden md:block pointer-events-none" style="z-index: -1;" fill="none">
+                        <path d="M 50 50 Q 250 150 450 50" stroke="rgba(168,85,247,0.2)" stroke-width="1" stroke-dasharray="4 4" />
+                    </svg>
+
+                    <div class="flex flex-col items-center text-center max-w-[200px] group">
+                        <div class="w-14 h-14 rounded-full bg-[#0a0a0a] border border-white/10 flex items-center justify-center mb-6 group-hover:border-purple-500/50 transition duration-300">
+                            <svg class="w-6 h-6 text-gray-300 group-hover:text-purple-400 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                        </div>
+                        <h4 class="text-sm font-medium mb-2 text-white">Stunning Design</h4>
+                        <p class="text-xs text-gray-500 leading-relaxed">Clean, modern and user-focused interfaces.</p>
+                    </div>
+
+                    <div class="flex flex-col items-center text-center max-w-[200px] group">
+                        <div class="w-14 h-14 rounded-full bg-[#0a0a0a] border border-white/10 flex items-center justify-center mb-6 group-hover:border-purple-500/50 transition duration-300">
+                            <svg class="w-6 h-6 text-gray-300 group-hover:text-purple-400 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg>
+                        </div>
+                        <h4 class="text-sm font-medium mb-2 text-white">Clean Code</h4>
+                        <p class="text-xs text-gray-500 leading-relaxed">Optimized for speed, security and SEO.</p>
+                    </div>
+
+                    <div class="flex flex-col items-center text-center max-w-[200px] group">
+                        <div class="w-14 h-14 rounded-full bg-[#0a0a0a] border border-white/10 flex items-center justify-center mb-6 group-hover:border-purple-500/50 transition duration-300">
+                            <svg class="w-6 h-6 text-gray-300 group-hover:text-purple-400 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"></path></svg>
+                        </div>
+                        <h4 class="text-sm font-medium mb-2 text-white">Premium Support</h4>
+                        <p class="text-xs text-gray-500 leading-relaxed">Dedicated support from idea to launch.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-24 relative" id="services">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="flex justify-between items-end mb-12 reveal">
+                <div>
+                    <span class="text-purple-500 text-xs font-semibold tracking-widest uppercase mb-3 flex items-center gap-2">
+                        <span class="w-1.5 h-1.5 rounded-full bg-purple-500"></span> SERVICES
+                    </span>
+                    <h2 class="text-3xl lg:text-4xl font-semibold">What I Can Do For You</h2>
+                </div>
+                <a href="https://instagram.com/farz3adMini" target="_blank" class="text-sm text-gray-400 hover:text-white transition hidden md:flex items-center gap-2">
+                    Contact for Pricing <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
+                </a>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="bg-[#0a0a0a] border border-white/5 rounded-2xl p-8 hover:border-purple-500/50 hover:shadow-[0_0_30px_rgba(168,85,247,0.15)] transition duration-300 group reveal cursor-pointer flex flex-col justify-between h-64">
+                    <div>
+                        <div class="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center mb-6 group-hover:bg-purple-500/20 transition">
+                            <svg class="w-5 h-5 text-gray-300 group-hover:text-purple-400 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                        </div>
+                        <h3 class="text-lg font-semibold mb-2 group-hover:text-purple-300 transition">Web Design</h3>
+                        <p class="text-xs text-gray-500 leading-relaxed">Modern, responsive and visually striking UI/UX designs.</p>
+                    </div>
+                    <div class="flex justify-end mt-4">
+                        <div class="w-8 h-8 rounded-full border border-white/10 flex items-center justify-center group-hover:border-purple-500/50 transition">
+                            <svg class="w-4 h-4 text-gray-500 group-hover:text-purple-400 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-[#0a0a0a] border border-white/5 rounded-2xl p-8 hover:border-purple-500/50 hover:shadow-[0_0_30px_rgba(168,85,247,0.15)] transition duration-300 group reveal cursor-pointer flex flex-col justify-between h-64" style="transition-delay: 100ms;">
+                    <div>
+                        <div class="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center mb-6 group-hover:bg-purple-500/20 transition">
+                            <svg class="w-5 h-5 text-gray-300 group-hover:text-purple-400 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg>
+                        </div>
+                        <h3 class="text-lg font-semibold mb-2 group-hover:text-purple-300 transition">Web Development</h3>
+                        <p class="text-xs text-gray-500 leading-relaxed">Fast, scalable and clean code built to perform.</p>
+                    </div>
+                    <div class="flex justify-end mt-4">
+                        <div class="w-8 h-8 rounded-full border border-white/10 flex items-center justify-center group-hover:border-purple-500/50 transition">
+                            <svg class="w-4 h-4 text-gray-500 group-hover:text-purple-400 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-[#0a0a0a] border border-white/5 rounded-2xl p-8 hover:border-purple-500/50 hover:shadow-[0_0_30px_rgba(168,85,247,0.15)] transition duration-300 group reveal cursor-pointer flex flex-col justify-between h-64" style="transition-delay: 200ms;">
+                    <div>
+                        <div class="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center mb-6 group-hover:bg-purple-500/20 transition">
+                            <svg class="w-5 h-5 text-gray-300 group-hover:text-purple-400 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
+                        </div>
+                        <h3 class="text-lg font-semibold mb-2 group-hover:text-purple-300 transition">Mobile Optimization</h3>
+                        <p class="text-xs text-gray-500 leading-relaxed">Flawless experiences across all devices and screens.</p>
+                    </div>
+                    <div class="flex justify-end mt-4">
+                        <div class="w-8 h-8 rounded-full border border-white/10 flex items-center justify-center group-hover:border-purple-500/50 transition">
+                            <svg class="w-4 h-4 text-gray-500 group-hover:text-purple-400 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-[#0a0a0a] border border-white/5 rounded-2xl p-8 hover:border-purple-500/50 hover:shadow-[0_0_30px_rgba(168,85,247,0.15)] transition duration-300 group reveal cursor-pointer flex flex-col justify-between h-64" style="transition-delay: 300ms;">
+                    <div>
+                        <div class="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center mb-6 group-hover:bg-purple-500/20 transition">
+                            <svg class="w-5 h-5 text-gray-300 group-hover:text-purple-400 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z"></path></svg>
+                        </div>
+                        <h3 class="text-lg font-semibold mb-2 group-hover:text-purple-300 transition">Web Applications</h3>
+                        <p class="text-xs text-gray-500 leading-relaxed">Custom, interactive solutions tailored to your business.</p>
+                    </div>
+                    <div class="flex justify-end mt-4">
+                        <div class="w-8 h-8 rounded-full border border-white/10 flex items-center justify-center group-hover:border-purple-500/50 transition">
+                            <svg class="w-4 h-4 text-gray-500 group-hover:text-purple-400 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-24 relative border-t border-white/5" id="projects">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="flex justify-between items-end mb-12 reveal">
+                <div>
+                    <span class="text-purple-500 text-xs font-semibold tracking-widest uppercase mb-3 flex items-center gap-2">
+                        <span class="w-1.5 h-1.5 rounded-full bg-purple-500"></span> PORTFOLIO
+                    </span>
+                    <h2 class="text-3xl lg:text-4xl font-semibold">Selected Works</h2>
+                </div>
+                <a href="https://instagram.com/farz3adMini" target="_blank" class="text-sm text-gray-400 hover:text-white transition hidden md:flex items-center gap-2">
+                    See More on Instagram <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
+                </a>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 reveal">
+                <div class="project-card group cursor-pointer">
+                    <div class="h-64 proj-img-1 relative overflow-hidden flex items-center justify-center border-b border-white/5">
+                        <div class="w-32 h-32 rounded-xl border border-purple-500/30 bg-purple-900/20 shadow-[0_0_30px_rgba(168,85,247,0.2)] transform group-hover:scale-110 group-hover:rotate-3 transition duration-500"></div>
+                    </div>
+                    <div class="p-6 flex justify-between items-center bg-[#0a0a0a]">
+                        <div>
+                            <h3 class="text-white font-medium mb-1">Nemone1</h3>
+                            <p class="text-xs text-gray-500">Scientific · Education</p>
+                        </div>
+                        <div class="w-8 h-8 rounded-full border border-white/10 flex items-center justify-center group-hover:border-purple-500/50 group-hover:bg-purple-500/10 transition">
+                            <svg class="w-4 h-4 text-gray-500 group-hover:text-purple-400 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-card group cursor-pointer">
+                    <div class="h-64 proj-img-2 relative overflow-hidden flex items-center justify-center border-b border-white/5">
+                        <div class="w-24 h-48 rounded-[2rem] border border-purple-500/30 bg-purple-900/20 shadow-[0_0_30px_rgba(168,85,247,0.2)] transform group-hover:scale-110 group-hover:-rotate-3 transition duration-500"></div>
+                    </div>
+                    <div class="p-6 flex justify-between items-center bg-[#0a0a0a]">
+                        <div>
+                            <h3 class="text-white font-medium mb-1">Nemone2 </h3>
+                            <p class="text-xs text-gray-500">Marketplace · Web App</p>
+                        </div>
+                        <div class="w-8 h-8 rounded-full border border-white/10 flex items-center justify-center group-hover:border-purple-500/50 group-hover:bg-purple-500/10 transition">
+                            <svg class="w-4 h-4 text-gray-500 group-hover:text-purple-400 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-card group cursor-pointer">
+                    <div class="h-64 proj-img-3 relative overflow-hidden flex items-center justify-center border-b border-white/5">
+                        <div class="w-40 h-24 rounded-lg border border-blue-500/30 bg-blue-900/20 shadow-[0_0_30px_rgba(96,165,250,0.2)] transform group-hover:scale-110 group-hover:rotate-2 transition duration-500"></div>
+                    </div>
+                    <div class="p-6 flex justify-between items-center bg-[#0a0a0a]">
+                        <div>
+                            <h3 class="text-white font-medium mb-1">Nemone3</h3>
+                            <p class="text-xs text-gray-500">Gaming · Application</p>
+                        </div>
+                        <div class="w-8 h-8 rounded-full border border-white/10 flex items-center justify-center group-hover:border-purple-500/50 group-hover:bg-purple-500/10 transition">
+                            <svg class="w-4 h-4 text-gray-500 group-hover:text-purple-400 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex justify-center gap-2 mt-8 reveal">
+                <div class="w-6 h-1.5 rounded-full bg-purple-500"></div>
+                <div class="w-1.5 h-1.5 rounded-full bg-white/20"></div>
+                <div class="w-1.5 h-1.5 rounded-full bg-white/20"></div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-24 relative border-t border-white/5 overflow-hidden" id="process">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="flex flex-col lg:flex-row justify-between items-center gap-16">
+
+                <div class="w-full lg:w-1/2 reveal">
+                    <span class="text-purple-500 text-xs font-semibold tracking-widest uppercase mb-3 flex items-center gap-2">
+                        <span class="w-1.5 h-1.5 rounded-full bg-purple-500"></span> HOW I WORK
+                    </span>
+                    <h2 class="text-3xl lg:text-4xl font-semibold mb-12">From Concept to Launch</h2>
+
+                    <div class="relative">
+                        <div class="absolute top-[20px] left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-purple-500/50 to-transparent hidden md:block z-0"></div>
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-6 relative z-10">
+                            <div>
+                                <div class="w-10 h-10 rounded-full border border-purple-500/50 bg-[#030005] flex items-center justify-center text-xs font-medium text-purple-400 mb-4">01</div>
+                                <h4 class="text-sm font-medium mb-2">Discover</h4>
+                                <p class="text-xs text-gray-500">We discuss your goals, vision and requirements.</p>
+                            </div>
+                            <div>
+                                <div class="w-10 h-10 rounded-full border border-white/10 bg-[#030005] flex items-center justify-center text-xs font-medium text-gray-400 mb-4">02</div>
+                                <h4 class="text-sm font-medium mb-2">Design</h4>
+                                <p class="text-xs text-gray-500">I create a stunning, custom design tailored to you.</p>
+                            </div>
+                            <div>
+                                <div class="w-10 h-10 rounded-full border border-white/10 bg-[#030005] flex items-center justify-center text-xs font-medium text-gray-400 mb-4">03</div>
+                                <h4 class="text-sm font-medium mb-2">Develop</h4>
+                                <p class="text-xs text-gray-500">Your design is brought to life with clean, fast code.</p>
+                            </div>
+                            <div>
+                                <div class="w-10 h-10 rounded-full border border-white/10 bg-[#030005] flex items-center justify-center text-xs font-medium text-gray-400 mb-4">04</div>
+                                <h4 class="text-sm font-medium mb-2">Launch</h4>
+                                <p class="text-xs text-gray-500">Your project goes live, ready to scale and convert.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="w-full lg:w-1/2 flex justify-center relative reveal">
+                    <div class="cube-container">
+                        <div class="cube">
+                            <div class="face front"></div>
+                            <div class="face back"></div>
+                            <div class="face right"></div>
+                            <div class="face left"></div>
+                            <div class="face top"></div>
+                            <div class="face bottom"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-24 relative border-t border-white/5 bg-gradient-to-b from-[#0a0a0a] to-[#030005] overflow-hidden" id="contact">
+        <div class="absolute bottom-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-purple-900/20 blur-[120px] rounded-full pointer-events-none"></div>
+
+        <div class="max-w-7xl mx-auto px-6 relative z-10 text-center reveal">
+            <h2 class="text-3xl lg:text-4xl font-semibold mb-4">Ready to Scale Your Business?</h2>
+            <p class="text-sm text-gray-400 mb-8 max-w-lg mx-auto">Let's build something amazing together. Message me on Instagram or Telegram to get started today.</p>
+            
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+                <a href="https://instagram.com/farz3adMini" target="_blank" class="bg-transparent border border-white/10 hover:border-purple-500/50 hover:bg-purple-500/10 text-white px-8 py-3 rounded-full inline-flex items-center gap-2 transition duration-300 text-sm font-medium shadow-lg hover:shadow-[0_0_20px_rgba(168,85,247,0.2)]">
+                    <svg class="w-5 h-5 text-purple-400" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+                    Message on Instagram
+                </a>
+                <a href="https://t.me/Y4rz6a" target="_blank" class="bg-transparent border border-white/10 hover:border-[#2AABEE]/50 hover:bg-[#2AABEE]/10 text-white px-8 py-3 rounded-full inline-flex items-center gap-2 transition duration-300 text-sm font-medium shadow-lg hover:shadow-[0_0_20px_rgba(42,171,238,0.2)]">
+                    <svg class="w-5 h-5 text-[#2AABEE]" fill="currentColor" viewBox="0 0 24 24"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
+                    Message on Telegram
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <footer class="border-t border-white/5 py-8 bg-[#030005]">
+        <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-4">
+            <a href="#hero" class="text-lg font-bold tracking-widest flex items-center gap-2">
+                <svg class="w-5 h-5 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                y4rz6a
+            </a>
+
+            <div class="flex gap-6 text-xs text-gray-500">
+                <a href="#hero" class="hover:text-white transition">Home</a>
+                <a href="#about" class="hover:text-white transition">About</a>
+                <a href="#services" class="hover:text-white transition">Services</a>
+                <a href="#projects" class="hover:text-white transition">Projects</a>
+                <a href="#contact" class="hover:text-white transition">Contact</a>
+            </div>
+
+            <div class="flex items-center gap-4 text-gray-500">
+                
+<a href="https://t.me/Y4rz6a" target="_blank" class="hover:text-white transition">
+    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+        <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/>
+    </svg>
+</a>
+
+<a href="https://github.com/Y4rz6a" target="_blank" class="hover:text-white transition">
+    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+        <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+    </svg>
+</a>
+                <a href="https://instagram.com/farz3adMini" target="_blank" class="hover:text-white transition"><svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></a>
+            </div>
+        </div>
+        <div class="text-center mt-8 text-xs text-gray-600">
+            © 2025 y4rz6a. All rights reserved.
+        </div>
+    </footer>
+
+    <script>
+        const heroText = document.getElementById('hero-text');
+
+        document.addEventListener('mousemove', (e) => {
+            const xAxis = (window.innerWidth / 2 - e.pageX) / 60;
+            const yAxis = (window.innerHeight / 2 - e.pageY) / 60;
+
+            if (heroText) {
+                heroText.style.transform = `translate(${xAxis / 3}px, ${yAxis / 3}px)`;
+            }
+        });
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
+
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    const headerOffset = 80;
+                    const elementPosition = targetElement.getBoundingClientRect().top;
+                    const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+                    window.scrollTo({
+                        top: offsetPosition,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
