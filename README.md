@@ -28,4 +28,4 @@ To run this project locally, no build process is required.
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/yourusername/y4rz6a-portfolio.git
+   git clone https://github.com/y4rz6a/y4rz6a-portfolio.git
